@@ -1,0 +1,93 @@
+@import "tailwindcss";
+
+/* "Velvet theater" tokens: warm red-black house, projector-white text,
+   ticket red for actions, marquee amber reserved for the signature frame. */
+@theme {
+  --color-velvet: #120c0e;
+  --color-curtain: #1f1518;
+  --color-seat: #2e2023;
+  --color-screen: #f3ede4;
+  --color-dust: #a8999b;
+  --color-ticket: #d42a29;
+  --color-ticket-hover: #e2302f;
+  --color-marquee: #ffc65c;
+
+  --font-display: "Bebas Neue", Impact, sans-serif;
+  --font-sans: "Archivo", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+}
+
+@layer base {
+  html {
+    color-scheme: dark;
+  }
+
+  body {
+    @apply bg-velvet font-sans text-screen antialiased;
+  }
+}
+
+@utility focus-ring {
+  @apply outline-none focus-visible:ring-2 focus-visible:ring-marquee focus-visible:ring-offset-2 focus-visible:ring-offset-velvet;
+}
+
+/* Ticket-printed metadata: years, ratings, counts, eyebrows. */
+@utility meta-label {
+  @apply font-mono text-xs tracking-[0.14em] text-dust uppercase;
+}
+
+/* Signature element: a cinema marquee frame whose two interleaved bulb
+   rows blink alternately, like chaser lights over a theater entrance. */
+@layer components {
+  .marquee-frame {
+    --bulb-gap: 22px;
+    --bulb: radial-gradient(circle, var(--color-marquee) 0 2.5px, transparent 3.5px);
+    position: relative;
+    padding: 2rem 2.25rem;
+    border-radius: 1rem;
+    background: color-mix(in oklab, var(--color-velvet) 72%, transparent);
+    backdrop-filter: blur(6px);
+    box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--color-marquee) 25%, transparent);
+  }
+
+  .marquee-frame::before,
+  .marquee-frame::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background:
+      var(--bulb) var(--bulb-offset) 0 / var(--bulb-gap) var(--bulb-gap) repeat-x,
+      var(--bulb) var(--bulb-offset) 100% / var(--bulb-gap) var(--bulb-gap) repeat-x,
+      var(--bulb) 0 var(--bulb-offset) / var(--bulb-gap) var(--bulb-gap) repeat-y,
+      var(--bulb) 100% var(--bulb-offset) / var(--bulb-gap) var(--bulb-gap) repeat-y;
+    filter: drop-shadow(0 0 3px var(--color-marquee));
+    animation: marquee-blink 1.4s steps(1, end) infinite;
+  }
+
+  .marquee-frame::before {
+    --bulb-offset: 0px;
+  }
+
+  .marquee-frame::after {
+    --bulb-offset: calc(var(--bulb-gap) / 2);
+    animation-delay: -0.7s;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-frame::before,
+    .marquee-frame::after {
+      animation: none;
+    }
+  }
+}
+
+@keyframes marquee-blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
