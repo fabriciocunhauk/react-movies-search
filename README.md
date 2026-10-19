@@ -29,7 +29,7 @@ Search any film and watch its trailer. Built with React and [The Movie Database 
 
 ### Prerequisites
 
-- Node.js 24 or later. If you use nvm, run `nvm use`, which reads `.nvmrc`.
+- Node.js 24. If you use nvm, run `nvm use`, which reads `.nvmrc`.
 - A TMDb API key. You can create one at <https://www.themoviedb.org/settings/api>.
 
 ### Setup
