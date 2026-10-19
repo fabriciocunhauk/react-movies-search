@@ -42,7 +42,7 @@ cp .env.example .env   # then set VITE_TMDB_TOKEN to your TMDb API key
 npm run dev
 ```
 
-The app runs at <http://localhost:5173>.
+The app runs at <http://localhost:3000>.
 
 > **Note:** Vite exposes `VITE_*` variables to the browser bundle. Use a read-only TMDb v3 API key, never a private secret.
 
